@@ -1,13 +1,13 @@
 # DoublePendulumPred
-This repository experiments in predicting the motion of a double pendulum.
-A double pendulum system is extremely chaotic to small changes in initial conditions making it difficult to predict in the long term.
+This repository experiments in predicting the motion of a double pendulum.  
+A double pendulum system is extremely chaotic to small changes in initial conditions making it difficult to predict in the long term.  
 The model trained is compared to basic simulations.
 
 ## Research Question
 To what extent can the motion of a double pendulum be predicted using a Transformer based model?
 
 ## Physics Model
-The double pendulum system uses langrangian mechanis to derive equations.
+The double pendulum system uses langrangian mechanis to derive equations.  
 The system is non linear and uses second degree differential equations.
 
 ## Physics Simulation
@@ -32,22 +32,21 @@ Upcoming...
 Upcoming...
 
 ## How to Run the Project
-pip install -r requirements.txt
-
-python data/generate_data.py
-python models/train.py
+pip install -r requirements.txt  
+  
+python data/generate_data.py  
+python models/train.py  
 python models/evaluate.py
 
 ## Project Structure
-physics/
-models/
-data/
-results/
-main.py
+physics/  
+models/  
+data/  
+results/  
+main.py  
 README.md
 
 ## Requirements
-'''
-numpy
+numpy  
 torch
-'''
+
