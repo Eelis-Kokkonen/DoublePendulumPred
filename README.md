@@ -29,7 +29,7 @@ $$
 m_2l_2\ddot{\theta}_2
 +
 m_2l_1\ddot{\theta}_1\cos(\theta_1-theta_2)
-(-)
+\-
 m_2l_1\dot{\theta}_1^2\sin(\theta_1-theta_2)+m_2g\sin(\theta_2)
 =0
 $$
