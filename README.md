@@ -8,8 +8,8 @@ To what extent can the motion of a double pendulum be predicted using a Transfor
 
 ## Physics Model
 The double pendulum system uses langrangian mechanis to derive equations.  
-The system is non linear and uses second degree differential equations.  
-  
+The system is non linear and uses second degree differential equations.
+
 ### Equation for first pendulum
 
 $$
@@ -25,9 +25,14 @@ $$
 
 ### Equation for second pendulum
 
-
-
-
+$$
+m_2l_2\ddot{\theta}_2
++
+m_2l_1\ddot{\theta}_1\cos(\theta_1-theta_2)
+-
+m_2l_1\dot{\theta}_1^2\sin(\theta_1-theta_2)+m_2g\sin(\theta_2)
+=0
+$$
 
 ## Physics Simulation
 Upcoming...
