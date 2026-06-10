@@ -10,11 +10,42 @@ To what extent can the motion of a double pendulum be predicted using a Transfor
 The double pendulum system uses langrangian mechanis to derive equations.
 The system is non linear and uses second degree differential equations.
 
+# Physics Simulation
+Upcoming...
+
 # Model
 Transformer based architecture.
+
+# Dataset Generation
+Upcoming...
 
 # Training Setup
 Upcoming...
 
 # Results
 Upcoming...
+
+# Discussion
+Upcoming...
+
+# Limitations
+Upcoming...
+
+# How to Run the Project
+pip install -r requirements.txt
+
+python data/generate_data.py
+python models/train.py
+python models/evaluate.py
+
+# Project Structure
+physics/
+models/
+data/
+results/
+main.py
+README.md
+
+# Requirements
+numpy
+torch
