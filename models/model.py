@@ -5,7 +5,7 @@ import torch.nn.Functional as F
 
 class Model(nn.Module):
     def __init__(self, 
-                 input_dim=16, 
+                 input_dim=15, 
                  d_model=64, 
                  d_ff=128, 
                  num_layers=4, 
@@ -48,15 +48,15 @@ class Model(nn.Module):
         
         B = x.shape(0)
 
-        M = x.extract(:, :, 13:14)
+        M = x.extract(:, :, 12:13)
 
-        G = x.extract(:, :, 15)
+        G = x.extract(:, :, 14)
 
         for i in range(timesteps):
 
             pred = self.forward(x)
 
-            pred = pred.expand(:, :, 16)
+            pred = pred.expand(:, :, 15)
             pred = torch.cat([x, M], dim=-1)
             pred = torch.cat([x, G], dim=-1)
 
