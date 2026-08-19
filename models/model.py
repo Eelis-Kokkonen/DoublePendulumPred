@@ -46,5 +46,20 @@ class Model(nn.Module):
 
     def predict(self, x, timesteps=1_000):
         
+        B = x.shape(0)
+
+        M = x.extract(:, :, 13:14)
+
+        G = x.extract(:, :, 15)
+
+        for i in range(timesteps):
+
+            pred = self.forward(x)
+
+            x = 
 
 
+
+
+
+        return predictions
