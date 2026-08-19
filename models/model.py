@@ -44,4 +44,7 @@ class Model(nn.Module):
         return x
 
 
+    def predict(self, x, timesteps=1_000):
+        
+
 
