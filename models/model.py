@@ -56,10 +56,12 @@ class Model(nn.Module):
 
             pred = self.forward(x)
 
-            x = 
+            pred = pred.expand(:, :, 16)
+            pred = torch.cat([x, M], dim=-1)
+            pred = torch.cat([x, G], dim=-1)
 
+            x = pred
 
-
-
+        predictions = x.extract(:, :timesteps :,)
 
         return predictions
