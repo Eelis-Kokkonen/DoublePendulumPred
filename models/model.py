@@ -5,7 +5,7 @@ import torch.nn.Functional as F
 
 class Model(nn.Module):
     def __init__(self, 
-                 input_dim=15, 
+                 input_dim=17, 
                  d_model=64, 
                  d_ff=128, 
                  num_layers=4, 
