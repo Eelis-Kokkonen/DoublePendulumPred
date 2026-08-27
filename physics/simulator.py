@@ -23,6 +23,16 @@ def derivatives(state, l1, l2, m1, m2, g)
 
     return np.array([omega1, domega1, omega2, domega2])
 
-
+@njit
 def gen_traj(state0, dt, timesteps):
-    
+    states = np.xeros(timesteps, 4)
+
+    state0 = states[0]
+
+    for i in range(timesteps - 1):
+        s = states[i]
+        k = derivatives(s)
+
+
+
+
