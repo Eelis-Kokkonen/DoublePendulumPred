@@ -25,7 +25,7 @@ def derivatives(state, l1, l2, m1, m2, g)
 
 @njit
 def gen_traj(state0, dt, timesteps):
-    states = np.xeros(timesteps, 4)
+    states = np.zeros(timesteps, 4)
 
     state0 = states[0]
 
