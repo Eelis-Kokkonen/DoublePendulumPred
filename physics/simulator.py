@@ -31,8 +31,10 @@ def gen_traj(state0, dt, timesteps):
 
     for i in range(timesteps - 1):
         s = states[i]
-        k = derivatives(s)
+        k1 = derivatives(s, l1, l2, m1, m2, g)
+        k2 = derivatives(s + 0.5 * dt * k1, l1, l2, m1, m2, g)
+        k3 = derivatives(s + 0.5 * dt * k2, l1, l2, m1, m2, g)
+        k4 = derivatives(s + dt * k3, l1, l2, m1, m2, g)
 
-
-
+        
 
