@@ -27,7 +27,7 @@ def derivatives(state, l1, l2, m1, m2, g)
 def gen_traj(state0, dt, timesteps):
     states = np.zeros(timesteps, 4)
 
-    state0 = states[0]
+    state[0] = state0
 
     for i in range(timesteps - 1):
         s = states[i]
@@ -37,6 +37,9 @@ def gen_traj(state0, dt, timesteps):
         k2 = derivatives(s + 0.5 * dt * k1, l1, l2, m1, m2, g)
         k3 = derivatives(s + 0.5 * dt * k2, l1, l2, m1, m2, g)
         k4 = derivatives(s + dt * k3, l1, l2, m1, m2, g)
-
+        
+        states[i + 1] = s + (dt / 6.0) * (k1 + 2 * k2 + 2 * k3 + k4)
+        
+    return states
         
 
