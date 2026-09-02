@@ -4,9 +4,6 @@ from data.generate_data import generate_block
 import torch
 
 
-
-
-
 class Training:
     def __init__(self, 
                  optimizer, 
@@ -69,9 +66,9 @@ class Training:
                     "model_state_dict": model.state_dict(),
                     "optimizer_state_dict": optimizer.state_dict(),
                     "schedular_state_dict": schedular.state_dict() if schedular else None,
-                    "steps": steps,
+                    "steps": step,
                     "loss": loss
-                }, "checkpoint.pth")
+                }, f"checkpoint_{step}.pth")
 
         print("Training has ended...")
         
