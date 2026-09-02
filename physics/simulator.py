@@ -3,7 +3,7 @@ import numpy as np
 import numba as nb
 
 @nb.njit
-def derivatives(state, l1, l2, m1, m2, g)
+def derivatives(state, l1, l2, m1, m2, g):
 
     # Opening Given State
     theta1, omega1, theta2, omega2 = state
