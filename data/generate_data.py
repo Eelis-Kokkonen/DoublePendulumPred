@@ -1,5 +1,5 @@
 import numba
-
+from physics.simulator import gen_traj
 
 @nb.jit
 def generate_block(
