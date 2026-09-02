@@ -31,7 +31,7 @@ def derivatives(state, l1, l2, m1, m2, g):
 def gen_traj(state0, dt, timesteps):
     states = np.zeros(timesteps, 4)
 
-    state[0] = state0
+    states[0] = state0
 
     # Gathering Environment Data
     for i in range(timesteps - 1):
