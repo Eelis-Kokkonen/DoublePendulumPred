@@ -2,7 +2,7 @@ from model import Model
 from data.generate_data import generate_block
 
 import torch
-
+from tqdm import tqdm
 
 class Training:
     def __init__(self, 
@@ -29,7 +29,9 @@ class Training:
         
         print("Training has started...")
 
-        for step in steps:
+        pbar = tqdm(range(steps))
+
+        for step in pbar:
             model.train()
 
             self.optimizer.zero_grad()
@@ -46,6 +48,10 @@ class Training:
             loss.backwards()
 
             self.optimizer.step()
+
+            pbar.set_postfix(
+                loss=f"{loss.item():.f3}"
+            )
 
             if schedular is not None:
                 self.schedular.step()
