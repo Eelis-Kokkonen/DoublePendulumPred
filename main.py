@@ -29,7 +29,7 @@ if __name__ == "__main__":
     
     schedular = CosineAnnealingLR(
         optimizer=optimizer,
-        t_max=steps,
+        T_max=steps,
         eta_min=0.0,
         last_epoch=-1
     )
