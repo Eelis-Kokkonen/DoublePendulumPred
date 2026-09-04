@@ -1,4 +1,4 @@
-from model import Model
+from models.model import Model
 from data.generate_data import generate_block
 
 import torch
