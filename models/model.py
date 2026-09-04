@@ -1,6 +1,6 @@
 import torch
 import torch.nn
-import torch.nn.Functional as F
+import torch.nn.functional as F
 
 
 class Model(nn.Module):
