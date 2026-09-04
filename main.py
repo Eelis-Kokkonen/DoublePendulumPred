@@ -4,6 +4,7 @@ from data.generate_data import generate_block
 
 import torch.nn
 import torch
+from torch.optim.lr_schedular import CosineAnnealingLR
 
 if __name__ == "__main__":
 
