@@ -36,7 +36,7 @@ if __name__ == "__main__":
 
     loss_fn = torch.nn.MSELoss()
 
-    trainer = Trainer(
+    trainer = Training(
         optimizer=optimizer, 
         loss_fn=loss_fn, 
         schedular=schedular,
