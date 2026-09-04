@@ -1,5 +1,5 @@
 from models.model import Model
-from models.training import Training
+from models.train import Training
 from data.generate_data import generate_block
 
 import torch.nn
