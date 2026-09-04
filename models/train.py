@@ -1,5 +1,7 @@
 from models.model import Model
 from data.generate_data import generate_block
+from physics.simulator import generate_states
+
 
 import torch
 from tqdm import tqdm
@@ -29,6 +31,8 @@ class Training:
 
         self.init_state = 100
 
+        self.num_sims = 5
+
     def train(self, steps=1_000, timesteps=1_000):
 
         pred_len = timesteps - self.init_state
@@ -42,7 +46,7 @@ class Training:
 
             self.optimizer.zero_grad()
 
-            traj = torch.from_numpy(self.data_gen())
+            traj = torch.from_numpy(self.data_gen(generate_states(self.num_sims)))
 
             train_traj = traj[:, :self.init_state, :]
             eval_traj = traj[:, self.init_state:, :]
@@ -65,7 +69,7 @@ class Training:
             if (step + 1)  % eval_freq == 0:
                 self.model.eval()
                 
-                traj_eval = torch.from_numpy(self.data_gen())
+                traj_eval = torch.from_numpy(self.data_gen(generate_states(self.num_sims)))
 
                 input_traj = traj_eval[:, :pred_len, :]
                 pred_traj = traj_eval[:, pred_len:, :]
