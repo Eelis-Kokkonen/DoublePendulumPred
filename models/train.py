@@ -42,7 +42,7 @@ class Training:
 
             self.optimizer.zero_grad()
 
-            traj = torch.from_numpy(data_gen())
+            traj = torch.from_numpy(self.data_gen())
 
             train_traj = traj[:, :self.init_state, :]
             eval_traj = traj[:, self.init_state:, :]
@@ -65,7 +65,7 @@ class Training:
             if (step + 1)  % eval_freq == 0:
                 self.model.eval()
                 
-                traj_eval = torch.from_numpy(data_gen())
+                traj_eval = torch.from_numpy(self.data_gen())
 
                 input_traj = traj_eval[:, :pred_len, :]
                 pred_traj = traj_eval[:, pred_len:, :]
@@ -76,8 +76,8 @@ class Training:
 
                 torch.save({
                     "model_state_dict": self.model.state_dict(),
-                    "optimizer_state_dict": optimizer.state_dict(),
-                    "schedular_state_dict": schedular.state_dict() if schedular else None,
+                    "optimizer_state_dict": self.optimizer.state_dict(),
+                    "schedular_state_dict": self.schedular.state_dict() if self.schedular else None,
                     "steps": step,
                     "loss": loss
                 }, f"checkpoint_{step}.pth")
