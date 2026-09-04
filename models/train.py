@@ -63,10 +63,10 @@ class Training:
             if (step + 1)  % eval_freq == 0:
                 model.eval()
                 
-                traj_eval = data_gen()
+                traj_eval = torch.from_numpy(data_gen())
 
-                input_traj
-                pred_traj
+                input_traj = traj_eval[:, :pred_len, :]
+                pred_traj = traj_eval[:, pred_len:, :]
 
                 pred_eval = model.predict(input_traj, timesteps=1_000)
 
