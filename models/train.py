@@ -14,6 +14,8 @@ class Training:
                  model=Model
                 ):
 
+        super().__init__()
+                    
         self.device = device
         self.model = model
 
