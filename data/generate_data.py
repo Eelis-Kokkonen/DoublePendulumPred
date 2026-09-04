@@ -1,4 +1,4 @@
-import numba
+import numba as nb
 from physics.simulator import gen_traj
 
 @nb.jit
