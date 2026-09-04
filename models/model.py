@@ -22,7 +22,7 @@ class Model(nn.Module):
                                      num_encoder_layers=0, 
                                      num_decoder_layers=num_layers, 
                                      dim_feedforward=d_ff, 
-                                     activation=F.SiLU, 
+                                     activation=F.silu, 
                                      batch_first=True)
 
         self.output = nn.Linear(d_model, output_dim)  
