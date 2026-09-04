@@ -48,9 +48,9 @@ class Model(nn.Module):
         
         B = x.shape(0)
 
-        M = x.extract(:, :, 12:13)
+        M = x[:, :, 12:13]
 
-        G = x.extract(:, :, 14)
+        G = x[:, :, 14]
 
         for i in range(timesteps):
 
