@@ -16,7 +16,7 @@ if __name__ == "__main__":
 
     steps = 1_000
 
-    model = Model(device=device)
+    model = Model().to(device)
     
     optimizer = torch.optim.AdamW(
         params=model.parameters(),
