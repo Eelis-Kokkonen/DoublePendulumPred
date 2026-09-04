@@ -2,6 +2,35 @@ import torch
 import numpy as np
 import numba as nb
 
+def generate_states(
+    num_sims: int,
+    angle_bounds=(-np.pi, np.pi),
+    vel_bounds=(-1.0, 1.0),
+    seed: int = None
+) -> np.darray:
+    
+    if seed is not None:
+        np.random.seed(seed)
+        
+    theta1 = np.random.uniform(
+        angle_bounds[0], angle_bounds[1], size=(num_sims, 1)
+    )
+    
+    omega1 = np.random.uniform(
+        vel_bounds[0], vel_bounds[1], size=(num_sims, 1)
+    )
+
+    
+    theta2 = np.random.uniform(
+        angle_bounds[0], angle_bounds[1], size=(num_sims, 1)
+    )
+
+    omega2 = np.random.uniform(
+        vel_bounds[0], vel_bounds[1], size=(num_sims, 1)
+    )
+
+    return hp.stack([theta1, omega1, theta2, omega2])
+
 @nb.njit
 def derivatives(state, l1, l2, m1, m2, g):
 
