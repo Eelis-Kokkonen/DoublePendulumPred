@@ -38,7 +38,7 @@ class Training:
         pbar = tqdm(range(steps))
 
         for step in pbar:
-            model.train()
+            self.model.train()
 
             self.optimizer.zero_grad()
 
@@ -47,7 +47,7 @@ class Training:
             train_traj = traj[:, :self.init_state, :]
             eval_traj = traj[:, self.init_state:, :]
 
-            pred = model.predict(train_traj, timesteps=pred_len)
+            pred = self.model.predict(train_traj, timesteps=pred_len)
 
             loss = self.loss_fn(pred, eval_traj)
 
@@ -63,19 +63,19 @@ class Training:
                 self.schedular.step()
 
             if (step + 1)  % eval_freq == 0:
-                model.eval()
+                self.model.eval()
                 
                 traj_eval = torch.from_numpy(data_gen())
 
                 input_traj = traj_eval[:, :pred_len, :]
                 pred_traj = traj_eval[:, pred_len:, :]
 
-                pred_eval = model.predict(input_traj, timesteps=1_000)
+                pred_eval = self.model.predict(input_traj, timesteps=1_000)
 
                 loss = self.loss_fn(pred, eval_traj)
 
                 torch.save({
-                    "model_state_dict": model.state_dict(),
+                    "model_state_dict": self.model.state_dict(),
                     "optimizer_state_dict": optimizer.state_dict(),
                     "schedular_state_dict": schedular.state_dict() if schedular else None,
                     "steps": step,
