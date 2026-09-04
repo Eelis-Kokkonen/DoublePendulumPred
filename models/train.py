@@ -8,7 +8,7 @@ class Training:
     def __init__(self, 
                  optimizer, 
                  loss_fn, 
-                 shcedular,
+                 schedular,
                  device,
                  data_gen=generate_block, 
                  model=Model
