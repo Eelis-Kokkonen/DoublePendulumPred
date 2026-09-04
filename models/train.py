@@ -25,7 +25,11 @@ class Training:
 
         self.eval_freq = 1_000
 
-    def train(self, steps=1_000):
+        self.init_state = 100
+
+    def train(self, steps=1_000, timesteps=1_000):
+
+        pred_len = timesteps - init_state
         
         print("Training has started...")
 
@@ -36,12 +40,12 @@ class Training:
 
             self.optimizer.zero_grad()
 
-            traj = data_gen()
+            traj = torch.from_numpy(data_gen())
 
-            train_traj
-            eval_traj
+            train_traj = traj[:, :self.init_state, :]
+            eval_traj = traj[:, self.init_state:, :]
 
-            pred = model.predict(train_traj, timesteps=1_000)
+            pred = model.predict(train_traj, timesteps=pred_len)
 
             loss = self.loss_fn(pred, eval_traj)
 
