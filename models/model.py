@@ -18,10 +18,11 @@ class Model(nn.Module):
         self.input = nn.Linear(input_dim, d_model)
 
         self.attention = nn.Transformer(d_model=d_model, 
-                                     n_head=2, 
+                                     nhead=2, 
                                      num_encoder_layers=0, 
                                      num_decoder_layers=num_layers, 
                                      dim_feedforward=d_ff, 
+                                     dropout=0.1,
                                      activation=F.silu, 
                                      batch_first=True)
 
