@@ -10,7 +10,7 @@ def generate_states(
     mass_bounds=(0.1, 2.0),
     g: float = 9.81,
     seed: int = None
-) -> np.darray:
+) -> np.array:
     
     if seed is not None:
         np.random.seed(seed)
