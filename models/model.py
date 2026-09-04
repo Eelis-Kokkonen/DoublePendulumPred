@@ -11,6 +11,8 @@ class Model(nn.Module):
                  num_layers=4, 
                  output_dim=12):
 
+        super().__init__()
+
         self.latent = nn.Parameter(torch.randn(1, 1, d_model))
 
         self.input = nn.Linear(input_dim, d_model)
