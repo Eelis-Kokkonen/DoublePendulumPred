@@ -39,7 +39,7 @@ if __name__ == "__main__":
         optimizer=optimizer, 
         loss_fn=loss_fn, 
         schedular=schedular,
-        device=device
+        device=device,
         data_gen=generate_block, 
         model=model
     )
