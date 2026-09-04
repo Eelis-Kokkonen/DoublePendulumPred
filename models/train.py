@@ -31,7 +31,7 @@ class Training:
 
     def train(self, steps=1_000, timesteps=1_000):
 
-        pred_len = timesteps - init_state
+        pred_len = timesteps - self.init_state
         
         print("Training has started...")
 
