@@ -27,7 +27,7 @@ if __name__ == "__main__":
         weight_decay=0.01
     )
     
-    schedular = torch.optim.CosineAnnealingLR(
+    schedular = CosineAnnealingLR(
         optimizer=optimizer,
         t_max=steps,
         eta_min=0.0,
