@@ -6,6 +6,9 @@ def generate_states(
     num_sims: int,
     angle_bounds=(-np.pi, np.pi),
     vel_bounds=(-1.0, 1.0),
+    length_bounds=(0.1, 2.0),
+    mass_bounds=(0.1, 2.0),
+    g: float = 9.81,
     seed: int = None
 ) -> np.darray:
     
@@ -29,7 +32,22 @@ def generate_states(
         vel_bounds[0], vel_bounds[1], size=(num_sims, 1)
     )
 
-    return hp.stack([theta1, omega1, theta2, omega2])
+
+    length1 = np.random.uniform(
+        length_bounds[0], length_bounds[1], size=(num_sims, 1)
+    )
+    length2 = np.random.uniform(
+        length_bounds[0], length_bounds[1], size=(num_sims, 1)
+    )
+
+    mass1 = np.random.uniform(
+        mass_bounds[0], mass_bounds[1], size=(num_sims, 1)
+    )
+    mass2 = np.random.uniform(
+        mass_bounds[0], mass_bounds[1], size=(num_sims, 1)
+    )
+    
+    return hp.stack([theta1, omega1, theta2, omega2, length1, length2, mass1, mass2, g])
 
 @nb.njit
 def derivatives(state, l1, l2, m1, m2, g):
