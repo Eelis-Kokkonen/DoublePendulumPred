@@ -29,7 +29,7 @@ class Training:
 
         self.eval_freq = 1_000
 
-        self.init_state = 100
+        self.init_state = 5
 
         self.num_sims = 5
         self.dt = 0.01
