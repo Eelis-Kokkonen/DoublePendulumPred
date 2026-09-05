@@ -30,7 +30,7 @@ class Model(nn.Module):
 
     def forward(self, x):
 
-        B = x.shape(0)
+        B = x.size(0)
       
         x = self.input(x)
 
@@ -49,7 +49,7 @@ class Model(nn.Module):
 
     def predict(self, x, timesteps=1_000):
         
-        B = x.shape(0)
+        B = x.size(0)
 
         M = x[:, :, 12:13]
 
