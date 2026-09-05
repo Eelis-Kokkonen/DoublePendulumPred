@@ -32,6 +32,7 @@ class Training:
         self.init_state = 100
 
         self.num_sims = 5
+        self.dt = 0.01
 
     def train(self, steps=1_000, timesteps=1_000):
 
@@ -46,7 +47,7 @@ class Training:
 
             self.optimizer.zero_grad()
 
-            traj = torch.from_numpy(self.data_gen(generate_states(self.num_sims)))
+            traj = torch.from_numpy(self.data_gen(generate_states(self.num_sims), self.dt, timesteps))
 
             train_traj = traj[:, :self.init_state, :]
             eval_traj = traj[:, self.init_state:, :]
@@ -69,7 +70,7 @@ class Training:
             if (step + 1)  % eval_freq == 0:
                 self.model.eval()
                 
-                traj_eval = torch.from_numpy(self.data_gen(generate_states(self.num_sims)))
+                traj_eval = torch.from_numpy(self.data_gen(generate_states(self.num_sims), self.dt, timesteps))
 
                 input_traj = traj_eval[:, :pred_len, :]
                 pred_traj = traj_eval[:, pred_len:, :]
