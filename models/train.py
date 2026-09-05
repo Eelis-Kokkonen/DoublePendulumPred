@@ -71,7 +71,7 @@ class Training:
             if self.schedular is not None:
                 self.schedular.step()
 
-            if (step + 1)  % eval_freq == 0:
+            if (step + 1)  % self.eval_freq == 0:
                 self.model.eval()
 
                 initial_states_eval = generate_states(self.num_sims)
