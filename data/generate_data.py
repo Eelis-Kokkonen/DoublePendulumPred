@@ -2,7 +2,7 @@ import numba as nb
 import numpy as np
 from physics.simulator import gen_traj
 
-@nb.jit
+@nb.njit(parallel=True)
 def generate_block(
     initial_states,
     dt,
