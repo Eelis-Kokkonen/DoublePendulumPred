@@ -51,7 +51,7 @@ def generate_states(
         gravity_bounds[0], gravity_bounds[1], size=(num_sims, 1)
     )
     
-    return np.stack([
+    return np.hstack([
         theta1, 
         omega1, 
         theta2, 
