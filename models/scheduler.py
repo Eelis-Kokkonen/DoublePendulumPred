@@ -15,5 +15,5 @@ def cosine_warmup(optimizer, warmup_steps, total_steps, min_lr_ratio=1e-3):
         cosine_decay = 0.5 * (1.0 + math.cos(math.pi * progress))
         return min_lr_ratio + (1.0 - min_lr_ratio) * cosine_decay
 
-    return (optimizer, lr_lambda)
+    return LambdaLR(optimizer, lr_lambda)
 
