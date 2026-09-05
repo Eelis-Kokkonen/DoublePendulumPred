@@ -34,7 +34,8 @@ if __name__ == "__main__":
         last_epoch=-1
     )
 
-    loss_fn = torch.nn.MSELoss()
+    #loss_fn = torch.nn.MSELoss()
+    loss_fn = torch.nn.HuberLoss()
 
     trainer = Training(
         optimizer=optimizer, 
