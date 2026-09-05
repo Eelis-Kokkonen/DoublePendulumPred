@@ -55,7 +55,10 @@ class Model(nn.Module):
         curr_x = x.clone()
 
         for _ in range(timesteps):
-            next_state = self.forward(curr_x, params)
+            delta = self.forward(curr_x, params)
+
+            next_state = curr_x[:, -1, :] + delta
+            
             next_state_seq = next_state.unsqueeze(1)
 
             predictions.append(next_state_seq)
