@@ -51,7 +51,7 @@ class Training:
 
             params = torch.from_numpy(initial_states).to(self.device, dtype=torch.float32)
 
-            traj = torch.from_numpy(self.data_gen(initial_states, self.dt, timesteps))
+            traj = torch.from_numpy(self.data_gen(initial_states, self.dt, timesteps)).to(self.device, dtype=torch.float32)
             
             train_traj = traj[:, :self.init_state, :]
             eval_traj = traj[:, self.init_state:, :]
@@ -78,7 +78,7 @@ class Training:
 
                 params_eval = torch.from_numpy(initial_states_eval).to(self.device, dtype=torch.float32)
                 
-                traj_eval = torch.from_numpy(self.data_gen(initial_states_eval, self.dt, timesteps))
+                traj_eval = torch.from_numpy(self.data_gen(initial_states_eval, self.dt, timesteps)).to(self.device, dtype=torch.float32)
 
                 input_traj = traj_eval[:, :pred_len, :]
                 pred_traj = traj_eval[:, pred_len:, :]
