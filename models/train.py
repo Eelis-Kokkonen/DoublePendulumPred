@@ -2,15 +2,11 @@ from models.model import Model
 from data.generate_data import generate_block
 from physics.simulator import generate_states
 
-
 import torch
 from tqdm import tqdm
 
-
-
 import matplotlib.pyplot as plt
 import numpy as np
-import torch
 
 def compute_step_transition_metrics(pred, target):
     """
