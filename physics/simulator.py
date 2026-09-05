@@ -79,7 +79,7 @@ def derivatives(state, l1, l2, m1, m2, g):
     return np.array([omega1, domega1, omega2, domega2])
 
 @nb.njit
-def gen_traj(state0, dt, timesteps):
+def gen_traj(state0, dt, timesteps, l1, l2, m1, m2, g):
     states = np.zeros(timesteps, 4)
 
     states[0] = state0
