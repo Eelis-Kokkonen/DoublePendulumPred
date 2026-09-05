@@ -83,7 +83,7 @@ class Training:
                 input_traj = traj_eval[:, :pred_len, :]
                 pred_traj = traj_eval[:, pred_len:, :]
 
-                pred_eval = self.model.predict(input_traj, params_eval timesteps=1_000)
+                pred_eval = self.model.predict(input_traj, params_eval, timesteps=1_000)
 
                 loss = self.loss_fn(pred, eval_traj)
 
