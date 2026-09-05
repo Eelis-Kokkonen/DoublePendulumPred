@@ -68,7 +68,7 @@ class Training:
                 loss=f"{loss.item():.3f}"
             )
 
-            if schedular is not None:
+            if self.schedular is not None:
                 self.schedular.step()
 
             if (step + 1)  % eval_freq == 0:
