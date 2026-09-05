@@ -80,7 +80,7 @@ def derivatives(state, l1, l2, m1, m2, g):
 
 @nb.njit
 def gen_traj(state0, dt, timesteps, l1, l2, m1, m2, g):
-    states = np.zeros(timesteps, 4)
+    states = np.zeros((timesteps, 4), dtype=np.float64)
 
     states[0] = state0
 
