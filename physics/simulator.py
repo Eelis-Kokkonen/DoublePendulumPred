@@ -51,7 +51,17 @@ def generate_states(
         gravity_bounds[0], gravity_bounds[1], size=(num_sims, 1)
     )
     
-    return np.stack([theta1, omega1, theta2, omega2, length1, length2, mass1, mass2, gravity])
+    return np.stack([
+        theta1, 
+        omega1, 
+        theta2, 
+        omega2, 
+        length1, 
+        length2, 
+        mass1, 
+        mass2, 
+        gravity,
+    ])
 
 @nb.njit
 def derivatives(state, l1, l2, m1, m2, g):
