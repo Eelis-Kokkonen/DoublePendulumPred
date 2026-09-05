@@ -41,8 +41,8 @@ if __name__ == "__main__":
         total_steps=steps
     )
 
-    #loss_fn = torch.nn.MSELoss()
-    loss_fn = torch.nn.HuberLoss()
+    loss_fn = torch.nn.MSELoss()
+    #loss_fn = torch.nn.HuberLoss()
 
     trainer = Training(
         optimizer=optimizer, 
