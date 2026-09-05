@@ -49,12 +49,14 @@ class Training:
 
             initial_states = generate_states(self.num_sims)
 
+            params = torch.from_numpy(initial_states).to(device, dtype=torch.float32)
+
             traj = torch.from_numpy(self.data_gen(initial_states, self.dt, timesteps))
             
             train_traj = traj[:, :self.init_state, :]
             eval_traj = traj[:, self.init_state:, :]
 
-            pred = self.model.predict(train_traj, timesteps=pred_len)
+            pred = self.model.predict(train_traj, params, timesteps=pred_len)
 
             loss = self.loss_fn(pred, eval_traj)
 
@@ -73,13 +75,15 @@ class Training:
                 self.model.eval()
 
                 initial_states_eval = generate_states(self.num_sims)
+
+                params_eval = torch.from_numpy(initial_states).to(device, dtype=torch.float32)
                 
                 traj_eval = torch.from_numpy(self.data_gen(initial_states_eval, self.dt, timesteps))
 
                 input_traj = traj_eval[:, :pred_len, :]
                 pred_traj = traj_eval[:, pred_len:, :]
 
-                pred_eval = self.model.predict(input_traj, timesteps=1_000)
+                pred_eval = self.model.predict(input_traj, params_eval timesteps=1_000)
 
                 loss = self.loss_fn(pred, eval_traj)
 
