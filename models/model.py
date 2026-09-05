@@ -23,14 +23,13 @@ class Model(nn.Module):
             nhead=nhead,
             dim_feedforward=d_ff,
             dropout=0.1,
-            activation="silu",
+            activation="gelu",
             batch_first=True,
         )
 
         self.transformer = nn.TransformerEncoder(
             encoder_layer, num_layers=num_layers
         )
-                    
 
         self.output_proj = nn.Linear(d_model, state_dim)  
 
