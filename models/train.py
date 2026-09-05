@@ -65,7 +65,7 @@ class Training:
             self.optimizer.step()
 
             pbar.set_postfix(
-                loss=f"{loss.item():.f3}"
+                loss=f"{loss.item():.3f}"
             )
 
             if schedular is not None:
