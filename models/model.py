@@ -9,7 +9,8 @@ class Model(nn.Module):
                  param_dim=5,
                  d_model=64, 
                  d_ff=128, 
-                 num_layers=4
+                 num_layers=4,
+                 nhead=2
                 ):
 
         super().__init__()
