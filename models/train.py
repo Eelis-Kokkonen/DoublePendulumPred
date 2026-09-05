@@ -60,7 +60,7 @@ class Training:
 
             loss = self.loss_fn(pred, eval_traj)
 
-            loss = torch.clamp(loss, max=10.0)
+            loss = torch.clamp(loss, max=200.0)
 
             loss.backward()
 
