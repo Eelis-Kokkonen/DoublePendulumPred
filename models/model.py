@@ -48,7 +48,7 @@ class Model(nn.Module):
         return next_state
 
 
-    def predict(self, x, params timesteps=1_000):
+    def predict(self, x, params, timesteps=1_000):
 
         predictions = []
 
