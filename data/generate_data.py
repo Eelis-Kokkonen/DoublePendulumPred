@@ -23,7 +23,7 @@ def generate_block(
         
         
         trajectories[i] = gen_traj(
-            initial_states[i],
+            s0,
             dt,
             timesteps,
             l1,
