@@ -6,6 +6,65 @@ from physics.simulator import generate_states
 import torch
 from tqdm import tqdm
 
+
+
+import matplotlib.pyplot as plt
+import numpy as np
+import torch
+
+def compute_step_transition_metrics(pred, target):
+    """
+    Computes step-to-step transition errors between adjacent time steps (tokens).
+    
+    Args:
+        pred: Tensor of shape (batch_size, pred_len, state_dim)
+        target: Tensor of shape (batch_size, pred_len, state_dim)
+        
+    Returns:
+        transition_error: MSE of predicted state changes (step t -> t+1)
+        error_growth_rate: Incremental increase in cumulative loss (Error(t+1) - Error(t))
+    """
+    # 1. Transition Error: Error in state delta between token t and token t+1
+    pred_delta = pred[:, 1:, :] - pred[:, :-1, :]
+    target_delta = target[:, 1:, :] - target[:, :-1, :]
+    
+    transition_error = torch.mean((pred_delta - target_delta) ** 2, dim=(0, 2)).detach().cpu().numpy()
+    
+    # 2. Cumulative MSE per timestep
+    step_mse = torch.mean((pred - target) ** 2, dim=(0, 2)).detach().cpu().numpy()
+    
+    # 3. Incremental Error Growth: Loss added strictly at token t+1 compared to token t
+    error_growth_rate = np.diff(step_mse)
+    
+    return transition_error, error_growth_rate
+
+def plot_token_step_errors(transition_error, error_growth_rate, step, filename=None):
+    """Plots transition delta error and step-by-step error growth across token sequence."""
+    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 8), sharex=True)
+    steps = np.arange(1, len(transition_error) + 1)
+    
+    # Plot 1: Transition Delta Error between consecutive tokens
+    ax1.plot(steps, transition_error, color="darkorange", linewidth=1.5, label=r"Transition Error ($\Delta t \to \Delta t+1$)")
+    ax1.set_yscale("log")
+    ax1.set_ylabel("Transition MSE (Log Scale)")
+    ax1.set_title(f"Token-to-Token Step Dynamics Error (Training Step {step})")
+    ax1.grid(True, which="both", linestyle="--", alpha=0.5)
+    ax1.legend()
+    
+    # Plot 2: Incremental loss growth added per timestep
+    ax2.plot(steps, error_growth_rate, color="purple", linewidth=1.5, label=r"Loss Acceleration ($\text{MSE}_{t+1} - \text{MSE}_t$)")
+    ax2.set_xlabel("Token Transition Index ($t \to t+1$)")
+    ax2.set_ylabel("Incremental Loss Change")
+    ax2.set_title("Per-Token Error Acceleration Rate")
+    ax2.grid(True, which="both", linestyle="--", alpha=0.5)
+    ax2.legend()
+    
+    plt.tight_layout()
+    save_path = filename if filename else f"token_step_error_step_{step}.png"
+    plt.savefig(save_path, dpi=300)
+    plt.close()
+
+
 class Training:
     def __init__(self, 
                  optimizer, 
@@ -57,6 +116,9 @@ class Training:
             eval_traj = traj[:, self.init_state:, :]
 
             pred = self.model.predict(train_traj, params, timesteps=pred_len)
+
+            trans_err, growth_rate = compute_step_transition_metrics(pred_eval, target_traj_eval)
+            plot_token_step_errors(trans_err, growth_rate, step=step + 1)
 
             loss = self.loss_fn(pred, eval_traj)
 
