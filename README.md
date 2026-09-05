@@ -73,4 +73,5 @@ README.md
 ## Requirements
 numpy  
 torch
+numba
 
