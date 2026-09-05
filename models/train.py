@@ -60,7 +60,7 @@ class Training:
 
             loss = self.loss_fn(pred, eval_traj)
 
-            loss.backwards()
+            loss.backward()
 
             self.optimizer.step()
 
