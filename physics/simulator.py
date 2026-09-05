@@ -112,8 +112,8 @@ def gen_traj(state0, dt, timesteps, l1, l2, m1, m2, g):
         next_s[0] = (next_s[0] + np.pi) % (2 * np.pi) - np.pi
         next_s[2] = (next_s[2] + np.pi) % (2 * np.pi) - np.pi
 
-        next_s[1] = np.clip(next_s[1], -100.0, 100.0)
-        next_s[3] = np.clip(next_s[3], -100.0, 100.0)
+        next_s[1] = min(max(next_s[1], -100.0), 100.0)
+        next_s[3] = min(max(next_s[3], -100.0), 100.0)
 
         states[i + 1] = next_s
 
