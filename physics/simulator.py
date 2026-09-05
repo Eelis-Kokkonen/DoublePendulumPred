@@ -69,7 +69,7 @@ def derivatives(state, l1, l2, m1, m2, g):
     # Opening Given State
     theta1, omega1, theta2, omega2 = state
 
-    eps = 1e-8
+    eps = np.finfo(np.float64).eps
 
     
     delta = theta2 - theta1
