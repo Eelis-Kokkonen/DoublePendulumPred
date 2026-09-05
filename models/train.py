@@ -31,7 +31,7 @@ class Training:
 
         self.init_state = 5
 
-        self.num_sims = 20
+        self.num_sims = 32
         self.dt = 0.01
 
     def train(self, steps=1_000, timesteps=1_000):
@@ -44,6 +44,7 @@ class Training:
 
         for step in pbar:
             self.model.train()
+            self.optimizer.zero_grad()
 
             self.optimizer.zero_grad()
 
