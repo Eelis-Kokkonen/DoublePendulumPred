@@ -27,7 +27,7 @@ class Training:
                     
         self.data_gen = data_gen
 
-        self.eval_freq = 1_000
+        self.eval_freq = 100_000
 
         self.init_state = 5
 
