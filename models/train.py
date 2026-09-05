@@ -113,7 +113,7 @@ class Training:
 
             pred = self.model.predict(train_traj, params, timesteps=pred_len)
 
-            trans_err, growth_rate = compute_step_transition_metrics(pred_eval, target_traj_eval)
+            trans_err, growth_rate = compute_step_transition_metrics(pred, eval_traj)
             plot_token_step_errors(trans_err, growth_rate, step=step + 1)
 
             loss = self.loss_fn(pred, eval_traj)
