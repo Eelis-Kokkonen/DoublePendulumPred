@@ -10,7 +10,7 @@ def generate_block(
 ):
     num_sims = initial_states.shape[0]
 
-    trajectories = np.zeros(num_sims, timesteps, 0)
+    trajectories = np.zeros((num_sims, timesteps, 4), dtype=np.float64)
 
     for i in nb.prange(num_sims):
 
