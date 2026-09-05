@@ -1,6 +1,7 @@
 from models.model import Model
 from models.train import Training
 from data.generate_data import generate_block
+from models.scheduler import cosine_warmup
 
 import torch.nn
 import torch
@@ -27,11 +28,17 @@ if __name__ == "__main__":
         weight_decay=0.01
     )
     
-    schedular = CosineAnnealingLR(
+    schedular3 = CosineAnnealingLR(
         optimizer=optimizer,
         T_max=steps,
         eta_min=0.0,
         last_epoch=-1
+    )
+
+    schedular = cosine_warmup(
+        optimizer=optimizer,
+        warmup_steps=300,
+        total_steps=steps
     )
 
     #loss_fn = torch.nn.MSELoss()
@@ -40,7 +47,7 @@ if __name__ == "__main__":
     trainer = Training(
         optimizer=optimizer, 
         loss_fn=loss_fn, 
-        schedular=None,
+        schedular=schedular,
         device=device,
         data_gen=generate_block, 
         model=model
