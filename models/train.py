@@ -88,7 +88,7 @@ class Training:
 
                 pred_eval = self.model.predict(input_traj, params_eval, timesteps=1_000)
 
-                loss = self.loss_fn(pred, eval_traj)
+                loss = self.loss_fn(pred_eval, eval_traj)
 
                 torch.save({
                     "model_state_dict": self.model.state_dict(),
