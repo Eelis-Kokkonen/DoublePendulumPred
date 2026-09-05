@@ -39,7 +39,7 @@ if __name__ == "__main__":
     trainer = Training(
         optimizer=optimizer, 
         loss_fn=loss_fn, 
-        schedular=schedular,
+        schedular=None,
         device=device,
         data_gen=generate_block, 
         model=model
