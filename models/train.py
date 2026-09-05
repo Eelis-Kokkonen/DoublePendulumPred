@@ -44,7 +44,6 @@ class Training:
 
         for step in pbar:
             self.model.train()
-            self.optimizer.zero_grad()
 
             self.optimizer.zero_grad()
 
@@ -60,6 +59,8 @@ class Training:
             pred = self.model.predict(train_traj, params, timesteps=pred_len)
 
             loss = self.loss_fn(pred, eval_traj)
+
+            loss = torch.clamp(loss, max=10.0)
 
             loss.backward()
 
