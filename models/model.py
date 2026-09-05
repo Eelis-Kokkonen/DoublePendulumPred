@@ -5,66 +5,61 @@ import torch.nn.functional as F
 
 class Model(nn.Module):
     def __init__(self, 
-                 input_dim=17, 
+                 state_dim=4,
+                 param_dim=5,
                  d_model=64, 
                  d_ff=128, 
-                 num_layers=4, 
-                 output_dim=12):
+                 num_layers=4
+                ):
 
         super().__init__()
 
-        self.latent = nn.Parameter(torch.randn(1, 1, d_model))
+        self.input_proj = nn.Linear(state_dim, d_model)
+        self.param_proj = nn.Linear(param_dim, d_model)
 
-        self.input = nn.Linear(input_dim, d_model)
+        encoder_layer = nn.TransformerEncoderLayer(
+            d_model=d_model,
+            nhead=nhead,
+            dim_feedforward=d_ff,
+            dropout=0.1,
+            activation="silu",
+            batch_first=True,
+        )
 
-        self.attention = nn.Transformer(d_model=d_model, 
-                                     nhead=2, 
-                                     num_encoder_layers=0, 
-                                     num_decoder_layers=num_layers, 
-                                     dim_feedforward=d_ff, 
-                                     dropout=0.1,
-                                     activation=F.silu, 
-                                     batch_first=True)
+        self.transformer = nn.TransformerEncoder(
+            encoder_layer, num_layers=num_layers
+        )
+                    
 
-        self.output = nn.Linear(d_model, output_dim)  
+        self.output_proj = nn.Linear(d_model, state_dim)  
 
-    def forward(self, x):
+    def forward(self, x, params):
 
-        B = x.size(0)
-      
-        x = self.input(x)
+        x_emb = self.input_proj(x)
 
-        latent = self.latent.expand(B, -1, -1)
+        p_emb = self.param_proj(params).unsqueeze(1)
 
-        x = torch.cat(latent, x)
-      
-        x = self.attention(x)
+        tokens = torch.cat([p_emb, x_emb], dim=1)
 
-        x = x[:, 0, :]
-      
-        x = self.output(x)
+        out = self.transformer(tokens)
+
+        next_state = self.output_proj(out[:, -1, :])
         
-        return x
+        return next_state
 
 
-    def predict(self, x, timesteps=1_000):
-        
-        B = x.size(0)
+    def predict(self, x, params timesteps=1_000):
 
-        M = x[:, :, 12:13]
+        predictions = []
 
-        G = x[:, :, 14]
+        curr_x = x.clone()
 
-        for i in range(timesteps):
+        for _ in range(timesteps):
+            next_state = self.forward(curr_x, params)
+            next_state_seq = next_state.unsqueeze(1)
 
-            pred = self.forward(x)
+            predictions.append(next_state_seq)
 
-            pred = pred.expand[:, :, 15]
-            pred = torch.cat([x, M], dim=-1)
-            pred = torch.cat([x, G], dim=-1)
+            curr_x = torch.cat([curr_x, next_state_seq], dim=1)
 
-            x = pred
-
-        predictions = x[:, :timesteps :,]
-
-        return predictions
+        return torch.cat(predictions, dim=1)
