@@ -10,7 +10,7 @@ def generate_states(
     mass_bounds=(0.1, 2.0),
     gravity_bounds=(1.0, 10.0),
     seed: int = None
-) -> np.array:
+) -> np.ndarray:
     
     if seed is not None:
         np.random.seed(seed)
