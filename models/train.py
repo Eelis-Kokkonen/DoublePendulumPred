@@ -31,7 +31,7 @@ class Training:
 
         self.init_state = 5
 
-        self.num_sims = 5
+        self.num_sims = 1
         self.dt = 0.01
 
     def train(self, steps=1_000, timesteps=1_000):
@@ -65,7 +65,7 @@ class Training:
             self.optimizer.step()
 
             pbar.set_postfix(
-                loss=f"{loss.item():.3f}"
+                loss=f"{loss.item():.10f}"
             )
 
             if self.schedular is not None:
