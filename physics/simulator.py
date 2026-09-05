@@ -8,7 +8,7 @@ def generate_states(
     vel_bounds=(-1.0, 1.0),
     length_bounds=(0.1, 2.0),
     mass_bounds=(0.1, 2.0),
-    g: float = 9.81,
+    gravity_bounds=(1.0, 10.0),
     seed: int = None
 ) -> np.array:
     
@@ -46,8 +46,12 @@ def generate_states(
     mass2 = np.random.uniform(
         mass_bounds[0], mass_bounds[1], size=(num_sims, 1)
     )
+
+    gravity = np.random.uniform(
+        gravity_bounds[0], gravity_bounds[1], size=(num_sims, 1)
+    )
     
-    return np.stack([theta1, omega1, theta2, omega2, length1, length2, mass1, mass2, g])
+    return np.stack([theta1, omega1, theta2, omega2, length1, length2, mass1, mass2, gravity])
 
 @nb.njit
 def derivatives(state, l1, l2, m1, m2, g):
