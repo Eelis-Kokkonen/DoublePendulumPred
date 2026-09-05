@@ -31,7 +31,7 @@ class Training:
 
         self.init_state = 5
 
-        self.num_sims = 1
+        self.num_sims = 20
         self.dt = 0.01
 
     def train(self, steps=1_000, timesteps=1_000):
