@@ -76,7 +76,7 @@ class Training:
 
                 initial_states_eval = generate_states(self.num_sims)
 
-                params_eval = torch.from_numpy(initial_states).to(device, dtype=torch.float32)
+                params_eval = torch.from_numpy(initial_states_eval).to(device, dtype=torch.float32)
                 
                 traj_eval = torch.from_numpy(self.data_gen(initial_states_eval, self.dt, timesteps))
 
