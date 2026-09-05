@@ -49,9 +49,7 @@ class Training:
 
             initial_states = generate_states(self.num_sims)
 
-            raw_traj = torch.from_numpy(self.data_gen(initial_states, self.dt, timesteps))
-
-            traj = torch.from_numpy(raw_traj).to(self.device, dtype=torch.float32)
+            traj = torch.from_numpy(self.data_gen(initial_states, self.dt, timesteps))
             
             train_traj = traj[:, :self.init_state, :]
             eval_traj = traj[:, self.init_state:, :]
@@ -76,9 +74,7 @@ class Training:
 
                 initial_states_eval = generate_states(self.num_sims)
                 
-                raw_traj_eval = torch.from_numpy(self.data_gen(initial_states_eval, self.dt, timesteps))
-
-                traj_eval = torch.from_numpy(raw_traj_eval).to(self.device, dtype=torch.float32)                
+                traj_eval = torch.from_numpy(self.data_gen(initial_states_eval, self.dt, timesteps))
 
                 input_traj = traj_eval[:, :pred_len, :]
                 pred_traj = traj_eval[:, pred_len:, :]
