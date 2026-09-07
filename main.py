@@ -25,7 +25,7 @@ if __name__ == "__main__":
         lr=1e-4,
         betas=(0.9, 0.999),
         eps=1e-8,
-        weight_decay=0.01
+        weight_decay=0.0
     )
     
     schedular3 = CosineAnnealingLR(
