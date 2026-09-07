@@ -22,7 +22,7 @@ class Model(nn.Module):
             d_model=d_model,
             nhead=nhead,
             dim_feedforward=d_ff,
-            dropout=0.1,
+            dropout=0,
             activation="gelu",
             batch_first=True,
         )
