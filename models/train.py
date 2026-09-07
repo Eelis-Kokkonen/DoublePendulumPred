@@ -201,6 +201,7 @@ class Training:
             if (step + 1) % 2_000 == 0:
 
                 timesteps += 10
+                pred_len = timesteps - self.init_state
 
             initial_states = generate_states(self.num_sims)
 
