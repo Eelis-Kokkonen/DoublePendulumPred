@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-"""
+
 class Model(nn.Module):
     def __init__(self, 
                  state_dim=4,
@@ -41,7 +41,17 @@ class Model(nn.Module):
 
         tokens = torch.cat([p_emb, x_emb], dim=1)
 
-        out = self.transformer(tokens)
+        seq_len = x.size(1)
+        
+        mask = torch.triu(
+            torch.ones(
+                seq_len,
+                seq_len,
+                device=x.device,
+                dtype=torch.bool
+            ), diagonal=1)
+        
+        out = self.transformer(tokens, mask)
 
         next_state = self.output_proj(out[:, -1, :])
         
@@ -67,14 +77,10 @@ class Model(nn.Module):
 
         return torch.cat(predictions, dim=1)
 
+
+
+
 """
-
-
-
-
-
-
-
 
 class Model(nn.Module):
     def __init__(self, 
@@ -139,4 +145,4 @@ class Model(nn.Module):
             curr_x = torch.cat([curr_x, next_state_seq], dim=1)
 
         return torch.cat(predictions, dim=1)
-
+"""
