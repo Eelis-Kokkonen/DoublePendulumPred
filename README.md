@@ -21,7 +21,8 @@ m_2l_2\dot{\theta}_2^2\sin(\theta_1-\theta_2)
 +
 (m_1+m_2)g\sin(\theta_1)
 =0
-$$
+$$<img width="600" height="800" alt="simulation_vs_model_step_100" src="https://github.com/user-attachments/assets/18a8b4e4-df58-49dc-b458-aa92c916470e" />
+
 
 ### Equation for second pendulum
 
