@@ -41,7 +41,7 @@ class Model(nn.Module):
 
         tokens = torch.cat([p_emb, x_emb], dim=1)
 
-        seq_len = x.size(1)
+        seq_len = tokens.size(1)
         
         mask = torch.triu(
             torch.ones(
