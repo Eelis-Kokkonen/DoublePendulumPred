@@ -90,7 +90,7 @@ def save_comparison_gif(
 
     # Compute double pendulum bob locations via forward kinematics
     def get_double_pendulum_coords(seq):
-        theta1, theta2 = seq[:, 0], seq[:, 1]
+        theta1, theta2 = seq[:, 0], seq[:, 2]
         
         # Bob 1 coordinates
         x1 = l1 * np.sin(theta1)
