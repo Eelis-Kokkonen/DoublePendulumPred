@@ -53,4 +53,4 @@ if __name__ == "__main__":
         model=model
     )
     
-    trainer.train(steps=steps, timesteps=20)
+    trainer.train(steps=steps, timesteps=100)
