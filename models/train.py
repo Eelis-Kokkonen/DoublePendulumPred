@@ -62,17 +62,10 @@ def plot_token_step_errors(transition_error, error_growth_rate, step, filename=N
     plt.close()
 
 
-def save_comparison_gif(target_traj, pred_traj, filename, sample_idx=0, fps=30):
-    """
-    Generates and saves a stacked GIF animation comparing simulation (ground truth)
-    and model output.
-    
-    Args:
-        target_traj: Tensor/ndarray of shape (batch_size, timesteps, state_dim)
-        pred_traj: Tensor/ndarray of shape (batch_size, timesteps, state_dim)
-        filename: Destination file path ending with .gif
-        sample_idx: Index of the batch item to visualize
-        fps: Frames per second of output GIF
+def save_comparison_gif(target_traj, pred_traj, filename, sample_idx=0, fps=30, L=1.0):
+    """Generates and saves a stacked GIF animating the physical pendulum system.
+
+    Top: Ground truth physics simulator. Bottom: Model prediction.
     """
     if torch.is_tensor(target_traj):
         target_traj = target_traj.detach().cpu().numpy()
@@ -81,66 +74,69 @@ def save_comparison_gif(target_traj, pred_traj, filename, sample_idx=0, fps=30):
 
     gt = target_traj[sample_idx]
     pred = pred_traj[sample_idx]
-    
     num_frames = min(len(gt), len(pred))
-    state_dim = gt.shape[-1]
 
-    fig, (ax_gt, ax_pred) = plt.subplots(2, 1, figsize=(8, 8))
-    
-    # Define bounds for spatial plotting
-    x_min = min(gt[:, 0].min(), pred[:, 0].min()) - 0.5
-    x_max = max(gt[:, 0].max(), pred[:, 0].max()) + 0.5
-    
-    if state_dim > 1:
-        y_min = min(gt[:, 1].min(), pred[:, 1].min()) - 0.5
-        y_max = max(gt[:, 1].max(), pred[:, 1].max()) + 0.5
-    else:
-        y_min, y_max = gt[:, 0].min() - 0.5, gt[:, 0].max() + 0.5
+    # Convert state representation to Cartesian bob coordinates (x, y)
+    def get_coordinates(seq):
+        if seq.shape[-1] >= 2 and np.all(np.abs(seq[:, :2]) <= L * 1.5):
+            return seq[:, 0], seq[:, 1]
+        else:
+            theta = seq[:, 0]
+            x = L * np.sin(theta)
+            y = -L * np.cos(theta)
+            return x, y
 
-    for ax, title, color in zip([ax_gt, ax_pred], ["Ground Truth Physics Simulation", "Model Prediction"], ["navy", "crimson"]):
-        ax.set_xlim(x_min if state_dim > 1 else 0, x_max if state_dim > 1 else num_frames)
-        ax.set_ylim(y_min, y_max)
-        ax.set_title(title)
-        ax.grid(True, linestyle="--", alpha=0.5)
+    x_gt, y_gt = get_coordinates(gt)
+    x_pred, y_pred = get_coordinates(pred)
 
-    line_gt, = ax_gt.plot([], [], "-", color="navy", alpha=0.6, label="Trajectory")
-    point_gt, = ax_gt.plot([], [], "o", color="blue", markersize=8)
-    
-    line_pred, = ax_pred.plot([], [], "-", color="crimson", alpha=0.6, label="Trajectory")
-    point_pred, = ax_pred.plot([], [], "o", color="red", markersize=8)
+    fig, (ax_gt, ax_pred) = plt.subplots(2, 1, figsize=(6, 8))
+
+    for ax, title in zip([ax_gt, ax_pred], ["Ground Truth Physics Simulation", "Model Prediction"]):
+        ax.set_xlim(-L * 1.3, L * 1.3)
+        ax.set_ylim(-L * 1.3, L * 1.3)
+        ax.set_aspect("equal")
+        ax.set_title(title, fontsize=12, fontweight="bold")
+        ax.grid(True, linestyle="--", alpha=0.3)
+        ax.plot(0, 0, "ko", markersize=8, zorder=5)
+
+    (rod_gt,) = ax_gt.plot([], [], "-", color="navy", lw=3, zorder=3)
+    (bob_gt,) = ax_gt.plot([], [], "o", color="blue", markersize=14, zorder=4)
+    (trace_gt,) = ax_gt.plot([], [], "--", color="blue", alpha=0.3, lw=1.5)
+
+    (rod_pred,) = ax_pred.plot([], [], "-", color="darkred", lw=3, zorder=3)
+    (bob_pred,) = ax_pred.plot([], [], "o", color="red", markersize=14, zorder=4)
+    (trace_pred,) = ax_pred.plot([], [], "--", color="red", alpha=0.3, lw=1.5)
 
     def init():
-        line_gt.set_data([], [])
-        point_gt.set_data([], [])
-        line_pred.set_data([], [])
-        point_pred.set_data([], [])
-        return line_gt, point_gt, line_pred, point_pred
+        rod_gt.set_data([], [])
+        bob_gt.set_data([], [])
+        trace_gt.set_data([], [])
+        rod_pred.set_data([], [])
+        bob_pred.set_data([], [])
+        trace_pred.set_data([], [])
+        return rod_gt, bob_gt, trace_gt, rod_pred, bob_pred, trace_pred
 
     def update(frame):
-        if state_dim > 1:
-            line_gt.set_data(gt[:frame+1, 0], gt[:frame+1, 1])
-            point_gt.set_data([gt[frame, 0]], [gt[frame, 1]])
-            
-            line_pred.set_data(pred[:frame+1, 0], pred[:frame+1, 1])
-            point_pred.set_data([pred[frame, 0]], [pred[frame, 1]])
-        else:
-            steps = np.arange(frame + 1)
-            line_gt.set_data(steps, gt[:frame+1, 0])
-            point_gt.set_data([frame], [gt[frame, 0]])
-            
-            line_pred.set_data(steps, pred[:frame+1, 0])
-            point_pred.set_data([frame], [pred[frame, 0]])
-            
-        return line_gt, point_gt, line_pred, point_pred
+        # Update Ground Truth Pendulum
+        rod_gt.set_data([0, x_gt[frame]], [0, y_gt[frame]])
+        bob_gt.set_data([x_gt[frame]], [y_gt[frame]])
+        trail_start = max(0, frame - 30)
+        trace_gt.set_data(x_gt[trail_start : frame + 1], y_gt[trail_start : frame + 1])
+
+        # Update Model Predicted Pendulum
+        rod_pred.set_data([0, x_pred[frame]], [0, y_pred[frame]])
+        bob_pred.set_data([x_pred[frame]], [y_pred[frame]])
+        trace_pred.set_data(x_pred[trail_start : frame + 1], y_pred[trail_start : frame + 1])
+
+        return rod_gt, bob_gt, trace_gt, rod_pred, bob_pred, trace_pred
 
     anim = animation.FuncAnimation(
         fig, update, init_func=init, frames=num_frames, interval=1000 // fps, blit=True
     )
-    
+
+    plt.tight_layout()
     anim.save(filename, writer="pillow", fps=fps)
     plt.close(fig)
-
-
 
 class Training:
     def __init__(self, 
