@@ -77,16 +77,20 @@ def derivatives(state, l1, l2, m1, m2, g):
     den2 = (l2 / l1) * den1 + eps
 
     # Calculating Angular Velocity for First Pendulum
-    domega1 = (m2 * l1 * omega1**2 * np.sin(delta) * np.cos(delta) + 
-              m2 * g * np.sin(theta2) * np.sin(delta) + 
-              m2 * l2 * omega2**2 * np.sin(delta) - 
-              (m1 + m2) * g * np.sin(theta1)) / den1
+    domega1 = (
+        m2 * l1 * omega1**2 * np.sin(delta) * np.cos(delta) 
+        + m2 * g * np.sin(theta2) * np.cos(delta) 
+        + m2 * l2 * omega2**2 * np.sin(delta) 
+        - (m1 + m2) * g * np.sin(theta1)
+    ) / den1
 
     # Calculating Angular Velocity for Second Pendulum
-    domega2 = (-m2 * l2 * omega2**2 * np.sin(delta) * np.cos(delta) + 
-              (m1 + m2) * g * np.sin(theta1) * np.sin(delta) + 
-              (m1 + m2) * l1 * omega1**2 * np.sin(delta) - 
-              (m1 + m2) * g * np.sin(theta2)) / den2
+    domega2 = (
+        -m2 * l2 * omega2**2 * np.sin(delta) * np.cos(delta) 
+        + (m1 + m2) * g * np.sin(theta1) * np.cos(delta) 
+        - (m1 + m2) * l1 * omega1**2 * np.sin(delta) 
+        - (m1 + m2) * g * np.sin(theta2)
+    ) / den2
 
     return np.array([omega1, domega1, omega2, domega2])
 
