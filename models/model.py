@@ -114,7 +114,7 @@ class Model(nn.Module):
 
         tokens = torch.cat([p_emb, x_emb], dim=1)
 
-        out = self.transformer(tokens)
+        out = self.transformer(tokens, None)
 
         next_state = self.output_proj(out[:, -1, :])
         
