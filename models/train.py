@@ -182,7 +182,7 @@ class Training:
 
         self.init_state = 5
 
-        self.num_sims = 32
+        self.num_sims = 128
         self.dt = 0.01
 
     def train(self, steps=1_000, timesteps=1_000):
@@ -197,6 +197,10 @@ class Training:
             self.model.train()
 
             self.optimizer.zero_grad()
+
+            if (step + 1) % 2_000 == 0:
+
+                timesteps += 10
 
             initial_states = generate_states(self.num_sims)
 
@@ -222,14 +226,12 @@ class Training:
                     pred_traj=pred,
                     filename=f"simulation_vs_model_step_{step+1}.gif",
                     sample_idx=0,
-                    fps=20,
+                    fps=100,
                     l1=sample_l1,
                     l2=sample_l2
                 )
 
             loss = self.loss_fn(pred, eval_traj)
-
-            #loss = torch.clamp(loss, max=00.0)
 
             loss.backward()
 
@@ -267,6 +269,15 @@ class Training:
                     "steps": step,
                     "loss": loss
                 }, f"checkpoint_{step}.pth")
+
+
+        torch.save({
+            "model_state_dict": self.model.state_dict(),
+            "optimizer_state_dict": self.optimizer.state_dict(),
+            "schedular_state_dict": self.schedular.state_dict() if self.schedular else None,
+            "steps": step,
+            "loss": loss
+        }, f"checkpoint_{step}.pth")
 
         print("Training has ended...")
         
