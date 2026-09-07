@@ -6,6 +6,7 @@ import torch
 from tqdm import tqdm
 
 import matplotlib.pyplot as plt
+import matplotlib.animation as animation
 import numpy as np
 
 def compute_step_transition_metrics(pred, target):
