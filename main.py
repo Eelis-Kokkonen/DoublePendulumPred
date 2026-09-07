@@ -37,7 +37,7 @@ if __name__ == "__main__":
 
     schedular = cosine_warmup(
         optimizer=optimizer,
-        warmup_steps=2000,
+        warmup_steps=200,
         total_steps=steps
     )
 
