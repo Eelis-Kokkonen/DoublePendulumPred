@@ -271,7 +271,7 @@ class Training:
                     "loss": loss
                 }, f"checkpoint_{step}.pth")
 
-            if (step + 1) % 10000:
+            if (step + 1) % 10000 == 0:
 
                 torch.save({
                     "model_state_dict": self.model.state_dict(),
