@@ -271,6 +271,16 @@ class Training:
                     "loss": loss
                 }, f"checkpoint_{step}.pth")
 
+            if (step + 1) % 10000:
+
+                torch.save({
+                    "model_state_dict": self.model.state_dict(),
+                    "optimizer_state_dict": self.optimizer.state_dict(),
+                    "schedular_state_dict": self.schedular.state_dict() if self.schedular else None,
+                    "steps": step,
+                    "loss": loss
+                }, f"checkpoint_{step}.pth")
+        
 
         torch.save({
             "model_state_dict": self.model.state_dict(),
