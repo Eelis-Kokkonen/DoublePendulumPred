@@ -227,7 +227,7 @@ class Training:
                     pred_traj=pred,
                     filename=f"simulation_vs_model_step_{step+1}.gif",
                     sample_idx=0,
-                    fps=100,
+                    fps=30,
                     l1=sample_l1,
                     l2=sample_l2
                 )
