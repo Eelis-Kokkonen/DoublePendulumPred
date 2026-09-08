@@ -182,7 +182,7 @@ class Training:
 
         self.init_state = 5
 
-        self.num_sims = 128
+        self.num_sims = 256
         self.dt = 0.01
 
     def train(self, steps=1_000, timesteps=1_000):
