@@ -16,7 +16,7 @@ if __name__ == "__main__":
     else:
         device = torch.device("cpu")
 
-    steps = 10000
+    steps = 100000
 
     model = Model().to(device)
     
