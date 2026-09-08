@@ -5,10 +5,10 @@ import numba as nb
 def generate_states(
     num_sims: int,
     angle_bounds=(-np.pi, np.pi),
-    vel_bounds=(-1.0, 1.0),
+    vel_bounds=(-2.0, 2.0),
     length_bounds=(0.1, 2.0),
-    mass_bounds=(0.1, 2.0),
-    gravity_bounds=(1.0, 10.0),
+    mass_bounds=(0.5, 2.0),
+    gravity_bounds=(5.0, 20.0),
     seed: int = None
 ) -> np.ndarray:
     
