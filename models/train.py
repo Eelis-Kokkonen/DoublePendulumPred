@@ -170,7 +170,8 @@ class Training:
         super().__init__()
                     
         self.device = device
-        self.model = model
+        self.model = torch.compile(model)
+        
 
         self.loss_fn = loss_fn
         self.optimizer = optimizer
