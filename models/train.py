@@ -215,10 +215,7 @@ class Training:
 
             pred = self.model.predict(train_traj, params, timesteps=pred_len)
 
-            print("Pred: ")
-            print(pred.shape)
-            print("traj")
-            print(traj.shape)
+            pred = train_traj + pred
             
             if (step + 1) % 500 == 0:
                 trans_err, growth_rate = compute_step_transition_metrics(pred, eval_traj)
