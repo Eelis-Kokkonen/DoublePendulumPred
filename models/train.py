@@ -214,7 +214,11 @@ class Training:
 
             pred = self.model.predict(train_traj, params, timesteps=pred_len)
 
-            if (step + 1) % 100 == 0:
+            last_state = traj[:, self.init_state, :]
+
+            pred = last_state + pred
+            
+            if (step + 1) % 500 == 0:
                 trans_err, growth_rate = compute_step_transition_metrics(pred, eval_traj)
                 plot_token_step_errors(trans_err, growth_rate, step=step + 1)
 
