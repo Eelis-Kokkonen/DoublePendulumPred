@@ -216,7 +216,7 @@ class Training:
 
             last_state = traj[:, self.init_state, :]
 
-            pred = last_state + pred
+            pred = pred + last_state 
             
             if (step + 1) % 500 == 0:
                 trans_err, growth_rate = compute_step_transition_metrics(pred, eval_traj)
