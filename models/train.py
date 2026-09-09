@@ -181,7 +181,7 @@ class Training:
 
         self.eval_freq = 100_000
 
-        self.init_state = 5
+        self.init_state = 1
 
         self.num_sims = 256
         self.dt = 0.01
@@ -215,7 +215,7 @@ class Training:
 
             pred = self.model.predict(train_traj, params, timesteps=pred_len)
 
-            last_state = traj[:, self.init_state, :]
+            last_state = traj[:, 1, :]
 
             pred = pred + last_state 
             
