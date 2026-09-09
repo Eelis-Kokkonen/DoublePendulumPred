@@ -215,12 +215,8 @@ class Training:
 
             pred = self.model.predict(train_traj, params, timesteps=pred_len)
 
-            last_state = traj[:, 1, :]
+            last_state = traj[:, 1]
 
-            print("pred ")
-            print(pred.shape)
-            print("last_state ")
-            print(last_state.shape)
 
             pred = pred + last_state 
             
