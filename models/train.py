@@ -217,6 +217,11 @@ class Training:
 
             last_state = traj[:, 1, :]
 
+            print("pred ")
+            print(pred.shape)
+            print("last_state ")
+            print(last_state.shape)
+
             pred = pred + last_state 
             
             if (step + 1) % 500 == 0:
