@@ -213,9 +213,9 @@ class Model3(nn.Module):
         curr_state = initial_state[:, -1, :] if initial_state.ndim == 3 else initial_state
 
         for i in range(timesteps):
-            x = torch.cat([initial_state, params], dim=-1)
+            x = torch.cat([curr_state, params], dim=-1)
             delta = self.forward(x)
-            curr_state = x + delta
+            curr_state = curr_state + delta
             predictions.append(curr_state.unsqueeze(1))
 
         return torch.cat(predictions, dim=1)
