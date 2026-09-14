@@ -79,10 +79,7 @@ class Model(nn.Module):
 
 
 
-
-"""
-
-class Model(nn.Module):
+class Model2(nn.Module):
     def __init__(self, 
                  state_dim=4,
                  param_dim=5,
@@ -95,9 +92,9 @@ class Model(nn.Module):
         super().__init__()
 
         self.input_proj = nn.Linear(state_dim, d_model)
-        self.param_proj = nn.Linear(param_dim, d_model)
+        self.param_proj = nn.Linear(param_dim+state_dim, d_model)
 
-        encoder_layer = nn.TransformerDecoderLayer(
+        encoder_layer = nn.TransformerEncoderLayer(
             d_model=d_model,
             nhead=nhead,
             dim_feedforward=d_ff,
@@ -106,7 +103,7 @@ class Model(nn.Module):
             batch_first=True,
         )
 
-        self.transformer = nn.TransformerDecoder(
+        self.transformer = nn.TransformerEncoder(
             encoder_layer, num_layers=num_layers
         )
 
@@ -114,13 +111,29 @@ class Model(nn.Module):
 
     def forward(self, x, params):
 
-        x_emb = self.input_proj(x)
+        x0 = x[:, 0, :]
+
+        x_rest[:, 1:, :]
+
+        x_emb = self.input_proj(x_rest)
+
+        params_input = torch.cat([x0, params], dim=1)
 
         p_emb = self.param_proj(params).unsqueeze(1)
 
         tokens = torch.cat([p_emb, x_emb], dim=1)
 
-        out = self.transformer(tokens, None)
+        seq_len = tokens.size(1)
+        
+        mask = torch.triu(
+            torch.ones(
+                seq_len,
+                seq_len,
+                device=x.device,
+                dtype=torch.bool
+            ), diagonal=1)
+        
+        out = self.transformer(tokens, mask)
 
         next_state = self.output_proj(out[:, -1, :])
         
@@ -145,4 +158,7 @@ class Model(nn.Module):
             curr_x = torch.cat([curr_x, next_state_seq], dim=1)
 
         return torch.cat(predictions, dim=1)
-"""
+
+
+
+
