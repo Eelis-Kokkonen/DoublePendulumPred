@@ -1,4 +1,4 @@
-from models.model import Model
+from models.model import Model3 as Model
 from models.train import Training
 from data.generate_data import generate_block
 from models.scheduler import cosine_warmup
