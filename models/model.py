@@ -210,6 +210,8 @@ class Model3(nn.Module):
     def predict(self, initial_state, params, timesteps=1_000):
         predictions = []
 
+        curr_state = initial_state[:, -1, :] if initial_state.ndim == 3 else initial_state
+
         for i in range(timesteps):
             x = torch.cat([initial_state, params], dim=-1)
             delta = self.forward(x)
