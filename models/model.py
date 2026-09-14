@@ -1,7 +1,22 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+import math
 
+class SinusoidalPositionalEncoding(nn.Module):
+    def __init__(self, d_model: int, mac_len: int):
+        super().__init__()
+        pe = torch.zeros(max_len, d_model)
+        position = torch.arange(0, max_len, dtype=torch.float).unsqueeze(1)
+        div_term = torch.exp(torch.arange(0, d_model, 2).float() * (-math.log(10000.0) / d_model))
+
+        pe[:, 0::2] = torch.sin(position * div_term)
+        pe[:, 1::2] = torch.cos(position * div_term)
+
+        self.register_buffer("pe", pe.unsqueeze(0))
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        return x + self.pe[:, :x.size(1), :]
 
 class Model(nn.Module):
     def __init__(self, 
@@ -94,6 +109,8 @@ class Model2(nn.Module):
         self.input_proj = nn.Linear(state_dim, d_model)
         self.param_proj = nn.Linear(param_dim+state_dim, d_model)
 
+        self.pos_encoder = SinusoidalPositionalEncoding(d_model=d_model, max_len=1_000)
+
         encoder_layer = nn.TransformerEncoderLayer(
             d_model=d_model,
             nhead=nhead,
@@ -113,7 +130,7 @@ class Model2(nn.Module):
 
         x0 = x[:, 0, :]
 
-        x_rest[:, 1:, :]
+        x_rest = x[:, 1:, :]
 
         x_emb = self.input_proj(x_rest)
 
@@ -122,6 +139,8 @@ class Model2(nn.Module):
         p_emb = self.param_proj(params).unsqueeze(1)
 
         tokens = torch.cat([p_emb, x_emb], dim=1)
+
+        tokens = self.pos_encoder(tokens)
 
         seq_len = tokens.size(1)
         
