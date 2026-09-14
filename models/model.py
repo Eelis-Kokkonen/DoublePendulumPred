@@ -207,4 +207,14 @@ class Model3(nn.Module):
     def forward(self, x):
         return self.net(x)
 
+    def predict(self, initial_state, params, timesteps=1_000):
+        predictions = []
+
+        for i in range(timesteps):
+            x = torch.cat([initial_state, params], dim=-1)
+            delta = self.forward(x)
+            curr_state = x + delta
+            predictions.append(curr_state.unsqueeze(1))
+
+        return torch.cat(predictions, dim=1)
 
