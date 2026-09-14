@@ -199,9 +199,9 @@ class Training:
 
             self.optimizer.zero_grad()
 
-            if (step + 1) % 2_000 == 0:
+            if (step + 1) % 90_000 == 0:
 
-                timesteps += 10
+                timesteps += 200
                 pred_len = timesteps - self.init_state
 
             initial_states = generate_states(self.num_sims)
