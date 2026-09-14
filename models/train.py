@@ -1,4 +1,4 @@
-from models.model import Model
+from models.model import Model2 as Model
 from data.generate_data import generate_block
 from physics.simulator import generate_states
 
