@@ -180,4 +180,31 @@ class Model2(nn.Module):
 
 
 
+class Model3(nn.Module):
+    def __init__(self, input_dim=9, hidden_dim=64, output_dim=4):
+        super().__init__()
+
+        self.net = nn.Sequential(
+            nn.Linear(input_dim, hidden_dim),
+            nn.SiLU(),
+            
+            nn.Linear(hidden_dim, hidden_dim),
+            nn.SiLU(),
+            
+            nn.Linear(hidden_dim, hidden_dim),
+            nn.SiLU(),
+            
+            nn.Linear(hidden_dim, hidden_dim),
+            nn.SiLU(),
+            
+            nn.Linear(hidden_dim, hidden_dim),
+            nn.SiLU(),
+            
+            nn.Linear(hidden_dim, output_dim),
+            
+        )
+
+    def forward(self, x):
+        return self.net(x)
+
 
