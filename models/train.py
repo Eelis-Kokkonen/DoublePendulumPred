@@ -1,4 +1,4 @@
-from models.model import Model2 as Model
+from models.model import Model3 as Model
 from data.generate_data import generate_block
 from physics.simulator import generate_states
 
@@ -213,9 +213,10 @@ class Training:
             train_traj = traj[:, :self.init_state, :]
             eval_traj = traj[:, self.init_state:, :]
 
-            pred = self.model.predict(train_traj, params, timesteps=pred_len)
+            #pred = self.model.predict(train_traj, params, timesteps=pred_len)
+            pred = self.model(train_traj)
 
-            pred = torch.cumsum(pred, dim=1) + train_traj
+            #pred = torch.cumsum(pred, dim=1) + train_traj
             
             if (step + 1) % 500 == 0:
                 trans_err, growth_rate = compute_step_transition_metrics(pred, eval_traj)
